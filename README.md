@@ -1,72 +1,33 @@
-# fp-dataset-artifacts
+# Evaluating and Improving the Electra-small Model for NLI
 
-Project by Kaj Bostrom, Jifan Chen, and Greg Durrett. Code by Kaj Bostrom and Jifan Chen.
+This repository contains the code and analysis for a research paper that examines the performance of the Electra-small model (Clark et al., 2020) on a Natural Language Inference (NLI) dataset. The goal is to determine whether the model's high accuracy is due to genuine learning or if it's relying on shortcuts or biases.
 
-## Getting Started
-You'll need Python >= 3.6 to run the code in this repo.
+## Contents
 
-First, clone the repository:
+- **Introduction:** Provides an overview of the research paper's objectives and methodology.
+- **Analysis:** Explores the use of Checklist sets and Contrast sets to assess the model's performance and identify potential shortcomings.
+- **Conclusion:** Discusses the outcomes of training the model on adversarial datasets to address the identified weaknesses.
 
-`git clone git@github.com:gregdurrett/fp-dataset-artifacts.git`
+## Analysis Methods
 
-Then install the dependencies:
+1. **Checklist Sets:** Behavioral testing using linguistic capabilities to evaluate the model's understanding of sentiment, vocabulary, and part of speech (POS). Minimum Functionality tests (MFT) are employed to detect gaps in the model's capabilities.
 
-`pip install --upgrade pip`
+2. **Contrast Sets:** Manually modified dataset examples that challenge the model's classification boundaries. This analysis helps reveal areas where the model might be misclassifying due to small dataset changes.
 
-`pip install -r requirements.txt`
+## Fixing the Model
 
-If you're running on a shared machine and don't have the privileges to install Python packages globally,
-or if you just don't want to install these packages permanently, take a look at the "Virtual environments"
-section further down in the README.
+The model's weaknesses highlighted in the analyses are addressed through training on adversarial datasets. This process aims to improve the model's generalization and robustness by exposing it to challenging examples.
 
-To make sure pip is installing packages for the right Python version, run `pip --version`
-and check that the path it reports is for the right Python interpreter.
+## Results
 
-## Training and evaluating a model
-To train an ELECTRA-small model on the SNLI natural language inference dataset, you can run the following command:
+The improved model's performance is evaluated using the original SNLI dataset and the Contrast sets. Comparisons with the base model demonstrate improvements in various aspects, including handling negations and ambiguous cases.
 
-`python3 run.py --do_train --task nli --dataset snli --output_dir ./trained_model/`
+## Usage
 
-Checkpoints will be written to sub-folders of the `trained_model` output directory.
-To evaluate the final trained model on the SNLI dev set, you can use
+The code and datasets used for this research are provided in this repository. Researchers and practitioners interested in NLP model evaluation and improvement can explore and extend the methods presented here.
 
-`python3 run.py --do_eval --task nli --dataset snli --model ./trained_model/ --output_dir ./eval_output/`
+## References
 
-To prevent `run.py` from trying to use a GPU for training, pass the argument `--no_cuda`.
+The paper references various research works in the field of Natural Language Processing (NLP), including dataset sources, evaluation methodologies, and adversarial training techniques.
 
-To train/evaluate a question answering model on SQuAD instead, change `--task nli` and `--dataset snli` to `--task qa` and `--dataset squad`.
-
-**Descriptions of other important arguments are available in the comments in `run.py`.**
-
-Data and models will be automatically downloaded and cached in `~/.cache/huggingface/`.
-To change the caching directory, you can modify the shell environment variable `HF_HOME` or `TRANSFORMERS_CACHE`.
-For more details, see [this doc](https://huggingface.co/transformers/v4.0.1/installation.html#caching-models).
-
-An ELECTRA-small based NLI model trained on SNLI for 3 epochs (e.g. with the command above) should achieve an accuracy of around 89%, depending on batch size.
-An ELECTRA-small based QA model trained on SQuAD for 3 epochs should achieve around 78 exact match score and 86 F1 score.
-
-## Working with datasets
-This repo uses [Huggingface Datasets](https://huggingface.co/docs/datasets/) to load data.
-The Dataset objects loaded by this module can be filtered and updated easily using the `Dataset.filter` and `Dataset.map` methods.
-For more information on working with datasets loaded as HF Dataset objects, see [this page](https://huggingface.co/docs/datasets/process.html).
-
-## Virtual environments
-Python 3 supports virtual environments with the `venv` module. These will let you select a particular Python interpreter
-to be the default (so that you can run it with `python`) and install libraries only for a particular project.
-To set up a virtual environment, use the following command:
-
-`python3 -m venv path/to/my_venv_dir`
-
-This will set up a virtual environment in the target directory.
-WARNING: This command overwrites the target directory, so choose a path that doesn't exist yet!
-
-To activate your virtual environment (so that `python` redirects to the right version, and your virtual environment packages are active),
-use this command:
-
-`source my_venv_dir/bin/activate`
-
-This command looks slightly different if you're not using `bash` on Linux. The [venv docs](https://docs.python.org/3/library/venv.html) have a list of alternate commands for different systems.
-
-Once you've activated your virtual environment, you can use `pip` to install packages the way you normally would, but the installed
-packages will stay in the virtual environment instead of your global Python installation. Only the virtual environment's Python
-executable will be able to see these packages.
+For more details, please refer to the full research paper or the provided code and analysis notebooks.
